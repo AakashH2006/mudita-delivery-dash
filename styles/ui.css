@@ -531,3 +531,29 @@ body{
   .clock-time{font-size:42px}
   .mk-title{font-size:11px}
 }
+
+/* ---- difficulty toggle ---- */
+.mode-pick{margin:4px 0 20px}
+.mode-row{
+  display:inline-flex;gap:4px;padding:4px;
+  border:1px solid var(--line);border-radius:var(--r-pill);
+  background:rgba(8,11,15,.6);
+}
+.mode-btn{
+  font:inherit;font-size:12px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--dim);cursor:pointer;
+  padding:9px 22px;border:0;border-radius:var(--r-pill);
+  background:transparent;transition:color .16s,background .16s;
+}
+.mode-btn:hover{color:#dfe7ef}
+.mode-btn.is-on{
+  color:#1a1205;background:linear-gradient(180deg,#ffc247,var(--accent));
+  box-shadow:0 2px 14px rgba(255,154,31,.3);
+}
+#mode-hard.is-on{
+  color:#2a0d0d;background:linear-gradient(180deg,#ff8a6b,#e8452a);
+  box-shadow:0 2px 14px rgba(232,69,42,.34);
+}
+.mode-blurb{
+  margin:11px 2px 0;font-size:12.5px;color:var(--dim);letter-spacing:.01em;
+}

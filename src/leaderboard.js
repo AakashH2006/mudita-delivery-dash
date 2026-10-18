@@ -21,6 +21,16 @@
 
   var LB = M.Leaderboard = {
     available: true,
+    mode: "easy",
+
+    /* Easy and hard are different races, so they get different boards.
+       Easy keeps the original unsuffixed keys so times already saved on
+       this device survive the arrival of difficulty modes. */
+    key: function (base) {
+      return this.mode === "easy" ? base : base + "." + this.mode;
+    },
+
+    setMode: function (name) { this.mode = name; return this; },
 
     /* ---- storage ---- */
     read: function (key) {
@@ -43,9 +53,9 @@
       }
     },
 
-    load: function () { return this.read(KEY); },
-    loadPerfect: function () { return this.read(KEY_P); },
-    save: function (list) { this.write(KEY, list, MAX); },
+    load: function () { return this.read(this.key(KEY)); },
+    loadPerfect: function () { return this.read(this.key(KEY_P)); },
+    save: function (list) { this.write(this.key(KEY), list, MAX); },
 
     /* returns the index the run landed at on the overall board, or -1 */
     add: function (entry) {
@@ -61,7 +71,7 @@
         var p = this.loadPerfect();
         p.push(rec);
         p.sort(byTime);
-        this.write(KEY_P, p, MAX_P);
+        this.write(this.key(KEY_P), p, MAX_P);
       }
 
       var list = this.load();
@@ -74,8 +84,8 @@
 
     clear: function () {
       try {
-        localStorage.removeItem(KEY);
-        localStorage.removeItem(KEY_P);
+        localStorage.removeItem(this.key(KEY));
+        localStorage.removeItem(this.key(KEY_P));
       } catch (e) { /* ignore */ }
     },
 

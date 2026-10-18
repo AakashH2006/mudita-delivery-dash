@@ -76,6 +76,10 @@ something that happens to you at 150 km/h.
 Times, cargo % and stunt score are kept in a top-10 leaderboard in
 `localStorage`, on this device only.
 
+Each difficulty keeps its own pair of boards, since they are not the same
+race. Easy still uses the original storage keys, so times saved before
+difficulty modes existed are still there.
+
 Under it sits a second board, **Full Load**, which only takes runs that
 arrived with cargo integrity at 100%. It keeps its own store rather than
 filtering the first one: a clean 34 s run would otherwise be pushed off a
@@ -86,9 +90,31 @@ the outright top ten.
 
 ---
 
+## Difficulty
+
+One number decides it: how far apart the streets sit. Everything else in the
+city — block contents, ramp run-ups, nitro spacing, traffic spans — is derived
+from that spacing, so the whole map scales and the only thing that really
+changes is how far you have to drive. The clock stays at 40 s either way.
+
+| | Street spacing | Route | A clean run |
+|---|---|---|---|
+| **Easy** | 152 m | 1735 m | ~34 s — room to spare |
+| **Hard** | 172 m | 1963 m | ~39 s — barely |
+
+Hard is set so the *median* run lands just past the limit rather than just
+inside it, which is what makes most attempts miss. It was calibrated with a
+deliberately fallible bot — imprecise steering, late reactions, the odd
+forgotten boost — rather than the perfect-line one, because a perfect line
+tells you nothing about how often a real run fails.
+
+Switching rebuilds the city, so it is only offered from the menu.
+
+---
+
 ## The city
 
-A **9 × 9 open grid** of intersections, 152 m apart — a 1216 m square of
+A **9 × 9 open grid** of intersections — 152 m apart on Easy, 172 m on Hard, so a 1216 m or 1376 m square of
 streets, 28 m of tarmac wide. Past the last junction the city gives way to
 open country: fields, hedge lines and orchards running several hundred metres
 out, so the grid ends in a landscape rather than at a border. There are **no
@@ -96,7 +122,8 @@ invisible walls** anywhere — drive out there if you like, it only costs you
 the clock.
 
 The DSCE gate is a block in from one corner and the orphanage a block in from
-the far one, **1735 m apart by road** against a 1290 m straight line. The cyan
+the far one, **1735 m apart by road** on Easy (1963 m on Hard) against a
+1290 m straight line. The cyan
 line on the tarmac and on the radar is the **suggested route**: it staircases
 through the middle of town, it sticks to the streets, and it is *not* the
 fastest way there.
