@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mudita Delivery Dash</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/ui.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="scene"></canvas>
+
+  <div id="boostfx"></div>
+  <div id="hitfx"></div>
+  <div id="vignette"></div>
+
+  <!-- ============ HUD ============ -->
+  <div id="hud" class="screen-hidden">
+
+    <div class="hud-top">
+      <div class="clock" id="clock">
+        <div class="clock-label">Time Remaining</div>
+        <div class="clock-time"><span id="t-sec">40</span><i>.</i><span id="t-cs">00</span></div>
+        <div class="clock-bar"><b id="t-bar"></b></div>
+      </div>
+    </div>
+
+    <div class="hud-left">
+      <div class="panel">
+        <div class="row"><span class="k">Cargo Integrity</span><span class="v" id="cargo-pct">100%</span></div>
+        <div class="bar"><b id="cargo-bar"></b></div>
+      </div>
+      <div class="panel">
+        <div class="row"><span class="k">To Orphanage</span><span class="v" id="dist-m">0 m</span></div>
+        <div class="bar thin"><b id="prog-bar"></b></div>
+      </div>
+      <div class="panel score-panel">
+        <div class="row"><span class="k">Stunt Score</span><span class="v" id="score-num">0</span></div>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <div class="boost-gauge">
+        <svg viewBox="0 0 120 120">
+          <circle class="g-bg" cx="60" cy="60" r="51"/>
+          <circle class="g-fg" id="boost-arc" cx="60" cy="60" r="51"/>
+        </svg>
+        <div class="boost-num" id="boost-num">100</div>
+        <div class="boost-lbl">Boost</div>
+      </div>
+      <div class="speed"><span id="speed-num">0</span><em>km/h</em></div>
+    </div>
+
+    <div id="minimap-wrap">
+      <canvas id="minimap" width="440" height="440"></canvas>
+      <div class="mm-ring"></div>
+      <div class="mm-n">N</div>
+    </div>
+
+    <div id="markers"></div>
+    <div id="toasts"></div>
+    <div id="bigmsg"></div>
+  </div>
+
+  <!-- ============ MENU ============ -->
+  <div id="menu" class="screen">
+    <div class="menu-grid">
+      <div class="menu-main">
+        <div class="brand">
+          <div class="brand-mark">MUDITA<i>&times;</i>DSCE</div>
+          <h1>Delivery<br><span>Dash</span></h1>
+          <p class="tagline">Donations loaded at the DSCE gate. The orphanage is waiting.
+             Ramp it, flip it, boost it &mdash; and get there in under 40 seconds.</p>
+        </div>
+        <button class="btn primary" id="btn-start">Start Delivery</button>
+        <div class="ctl-grid" id="ctl-grid"></div>
+      </div>
+      <div class="menu-side">
+        <div class="lb-sec">
+          <div class="side-head"><span>Leaderboard</span><button class="btn ghost tiny" id="btn-clear">Clear</button></div>
+          <div id="board"></div>
+        </div>
+        <div class="lb-sec">
+          <div class="side-head gold"><span>Full Load</span><span class="side-note">Cargo 100%</span></div>
+          <div id="board-perfect"></div>
+        </div>
+      </div>
+    </div>
+    <div class="foot">Mudita &times; Dayananda Sagar College of Engineering</div>
+  </div>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <div id="countdown" class="screen-hidden"><div id="cd-num">3</div><div id="cd-sub">Get Ready</div></div>
+
+  <!-- ============ RESULT ============ -->
+  <div id="result" class="screen-hidden">
+    <div class="res-card">
+      <div class="res-tag" id="res-tag">Delivered</div>
+      <h2 id="res-title">Delivery Complete</h2>
+      <p id="res-sub">The donations made it.</p>
+      <div class="res-stats">
+        <div class="stat"><span class="sk">Time</span><span class="sv" id="res-time">00.00</span></div>
+        <div class="stat"><span class="sk">Cargo</span><span class="sv" id="res-cargo">100%</span></div>
+        <div class="stat"><span class="sk">Stunts</span><span class="sv" id="res-score">0</span></div>
+      </div>
+      <div class="res-name" id="res-name-wrap">
+        <label for="res-name">Record this run</label>
+        <div class="name-row">
+          <input id="res-name" maxlength="14" placeholder="YOUR NAME" autocomplete="off" spellcheck="false">
+          <button class="btn primary" id="btn-save">Save</button>
+        </div>
+      </div>
+      <div class="res-actions">
+        <button class="btn primary" id="btn-retry">Retry</button>
+        <button class="btn ghost" id="btn-menu">Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading"><div class="ld-bar"><b></b></div><div class="ld-txt">Loading route&hellip;</div></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.148.0/three.min.js"></script>
+<script src="src/core.js"></script>
+<script src="src/textures.js"></script>
+<script src="src/world.js"></script>
+<script src="src/vehicle.js"></script>
+<script src="src/audio.js"></script>
+<script src="src/hud.js"></script>
+<script src="src/minimap.js"></script>
+<script src="src/markers.js"></script>
+<script src="src/leaderboard.js"></script>
+<script src="src/game.js"></script>
+</body>
+</html>

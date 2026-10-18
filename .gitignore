@@ -1,0 +1,6 @@
+# Reference images used while building the game. Neither is loaded at
+# runtime. The gametiles one is another studio's Play Store artwork and
+# does not belong in a public repo; vehicle-reference.jpg is here for the
+# same reason — if that photo is yours to publish, delete the line.
+assets/
+gametiles_*.jpg

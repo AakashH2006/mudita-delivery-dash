@@ -1,0 +1,6 @@
+# Reference images used while building the game. Neither is loaded by
+# the game at runtime, and the gametiles one is another studio's Play
+# Store artwork, so it has no business being served from your domain.
+assets/
+gametiles_*.jpg
+README.md
