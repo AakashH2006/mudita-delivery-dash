@@ -49,14 +49,19 @@ create table if not exists public.scores (
   -- a run that beat the clock, or it would not have been saved
   constraint within_the_clock check (time_s <= 40.00),
 
-  -- Physically impossible times, rejected. The truck tops out at
-  -- 200 km/h (55.6 m/s); covering the straight line between the gates
-  -- at that speed takes 23.2 s on easy and 26.3 s on hard, and that
-  -- already pretends you accelerate instantly and drive through
-  -- buildings. Anything under these floors did not happen.
+  -- Physically impossible times, rejected. The fastest the tempo can
+  -- travel is its airborne ceiling, 209 km/h (58 m/s); covering the
+  -- straight line between the gates at that speed takes 22.2 s on easy
+  -- and 25.2 s on hard, and that already pretends you accelerate
+  -- instantly, stay airborne the whole way and pass through buildings.
+  --
+  -- The floors sit well under even that, because the only thing they
+  -- need to catch is an obviously forged time, and the cost of setting
+  -- them too high is throwing out a real player's run. Cutting corners
+  -- and ignoring the suggested route stay entirely legal.
   constraint not_faster_than_physics check (
-    (mode = 'easy' and time_s >= 22.00) or
-    (mode = 'hard' and time_s >= 25.00)
+    (mode = 'easy' and time_s >= 20.00) or
+    (mode = 'hard' and time_s >= 23.00)
   )
 );
 

@@ -67,11 +67,24 @@ bar; they do not make it impossible.
 - **The two boards are pruned separately.** `overall` and `full` each keep
   their own ten. Pruning to the overall top ten would delete the clean runs
   the full-load board exists to show.
-- **Impossible times are rejected.** The truck tops out at 200 km/h, so the
-  straight line between the gates cannot be covered in under 23.2 s on easy
-  or 26.3 s on hard. The floors sit just below that, at 22 s and 25 s, and
-  that leaves cutting corners and skipping the suggested route entirely
-  legal — the floors only reject what the physics cannot produce.
+- **Impossible times are rejected.** The tempo's airborne ceiling is
+  209 km/h, so the straight line between the gates cannot be covered in
+  under 22.2 s on easy or 25.2 s on hard — and that already assumes instant
+  acceleration, staying airborne the whole way, and passing through
+  buildings. The floors sit well under even that, at 20 s and 23 s, because
+  all they need to catch is an obviously forged time and the cost of setting
+  them too high is throwing out a real run. Cutting corners and ignoring the
+  suggested route stay entirely legal.
+
+  If you already ran `schema.sql` before this change, apply just this bit:
+
+  ```sql
+  alter table public.scores drop constraint not_faster_than_physics;
+  alter table public.scores add constraint not_faster_than_physics check (
+    (mode = 'easy' and time_s >= 20.00) or
+    (mode = 'hard' and time_s >= 23.00)
+  );
+  ```
 - **Players cannot write scores directly.** No insert or update grant; the
   only way in is `submit_score()`.
 - **Players cannot promote themselves.** Row-level security picks the row,

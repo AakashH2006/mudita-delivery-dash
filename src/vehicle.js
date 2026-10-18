@@ -20,6 +20,7 @@
   var DRAG_QUAD = 0.0045;   /* terminal ~46 m/s, ~69 m/s on boost */
   var BRAKE = 46;
   var REV_MAX = 13;
+  var AIR_MAX = 58;         /* m/s ceiling while airborne, ~209 km/h */
   var GRAVITY = 24;
   var GRIP = 7.5;
   var DRIFT_GRIP = 1.25;
@@ -157,15 +158,26 @@
         if (!inp.throttle && !inp.brake) av -= 4 * dt;   /* engine braking */
         vf = Math.max(0, av) * sgn;
       } else {
-        /* boost still shoves you forward mid-air */
-        if (boosting) vf += BOOST_ACCEL * 0.55 * dt;
-        /* ...but the air has to push back. Without this there is no
-           surface taking speed off you, so holding boost through a
-           long flight accelerates without limit - a couple of big
-           ramps in a row and the tempo is doing 400 km/h. */
-        var sgnA = vf < 0 ? -1 : 1, avA = Math.abs(vf);
-        avA -= (DRAG_LIN * 0.5 * avA + DRAG_QUAD * avA * avA) * dt;
-        vf = Math.max(0, avA) * sgnA;
+        /* Nothing is touching the tempo in the air, so nothing takes
+           speed off it: you land doing what you left at. A ramp should
+           pay you for the risk of taking it, and the drag that used to
+           sit here charged about 40% of your speed for the privilege -
+           enough that the quick line was to ignore every ramp in the
+           city.
+
+           Boost still shoves you along, so the one thing left to guard
+           against is holding it through a long flight and accelerating
+           without limit. That is a ceiling, not a tax: coasting keeps
+           exactly what you had, and boosting tops out where the road
+           tops out. */
+        /* The guard is on the gain, never on what you arrived with.
+           Ground terminal under sustained boost is above this ceiling,
+           so a flat Math.min would quietly brake anyone who got there
+           and held the button - the exact slowdown this change is
+           meant to remove. */
+        if (boosting && vf < AIR_MAX) {
+          vf = Math.min(vf + BOOST_ACCEL * 0.55 * dt, AIR_MAX);
+        }
       }
 
       if (boosting && (inp.throttle > 0 || !this.grounded)) {

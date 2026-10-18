@@ -73,6 +73,12 @@ Kickers announce themselves about a block and a half out, in their own
 livery, which makes taking one a decision you commit to early rather than
 something that happens to you at 150 km/h.
 
+**Air costs you nothing.** Nothing is touching the tempo in flight, so
+nothing takes speed off it — you land doing what you left at, and boosting
+through the air gains up to a ceiling of 209 km/h. Ramps used to charge
+about 40% of your speed for the privilege, which made the quick line one
+that ignored every ramp in the city. Now taking one is worth it.
+
 Times, cargo % and stunt score are kept in a top-10 leaderboard in
 `localStorage`, on this device only.
 
