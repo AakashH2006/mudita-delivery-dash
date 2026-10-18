@@ -4,3 +4,7 @@
 assets/
 gametiles_*.jpg
 README.md
+
+# Database setup, not part of the game. Nothing secret in it, but it has
+# no reason to be served from the site.
+supabase/
