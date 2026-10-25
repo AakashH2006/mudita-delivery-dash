@@ -1,5 +1,5 @@
 -- ===========================================================
--- Mudita Delivery Dash - shared leaderboard
+-- Amhiti Adventures - shared leaderboard
 --
 -- Run this once in the Supabase SQL editor.
 --

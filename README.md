@@ -1,6 +1,15 @@
-# Mudita Delivery Dash
+# Amhiti Adventures
 
-*A vibe coded game for Mudita, Dayananda Sagar College of Engineering.*
+*A vibe coded game for Mudita, Dayananda Sagar College of Engineering —
+built for **Amhiti 5.0**, the annual mega donation drive.*
+
+> "A helping hand for a hopeful heart."
+
+The UI takes its palette straight off the Amhiti 5.0 poster: the deep teal it
+is printed on (`#154854`), the mint crumpled paper the artwork sits on
+(`#b0d7d3`), black ink, and the warm orange and yellow of the donated books
+spilling out of the box. The city keeps its golden hour — warm low sun against
+cool teal glass is the poster's own pairing.
 
 A browser arcade-driving game. A Mudita tempo leaves the **DSCE** gate loaded with
 donation crates and has to reach the **orphanage** on the far side of the city in
@@ -82,9 +91,10 @@ that ignored every ramp in the city. Now taking one is worth it.
 Times, cargo % and stunt score are kept in a top-10 leaderboard in
 `localStorage`, on this device only.
 
-Each difficulty keeps its own pair of boards, since they are not the same
-race. Easy still uses the original storage keys, so times saved before
-difficulty modes existed are still there.
+The storage keys still carry a `.hard` suffix. That is history, not a setting:
+when the menu offered two cities those keys held the 172 m one, which is the
+only city now, so the board carries straight on from the times already saved
+under them rather than starting empty.
 
 Under it sits a second board, **Full Load**, which only takes runs that
 arrived with cargo integrity at 100%. It keeps its own store rather than
@@ -96,31 +106,23 @@ the outright top ten.
 
 ---
 
-## Difficulty
+## One city
 
-One number decides it: how far apart the streets sit. Everything else in the
-city — block contents, ramp run-ups, nitro spacing, traffic spans — is derived
-from that spacing, so the whole map scales and the only thing that really
-changes is how far you have to drive. The clock stays at 40 s either way.
+How far apart the streets sit is the one number the whole city is built from —
+block contents, ramp run-ups, nitro spacing and traffic spans are all derived
+from that spacing. It is **172 m**, which puts the gate and the orphanage
+2064 m apart by road: a clean run lands around 39 s against the 40 s window, so
+only a near-perfect one gets there.
 
-| | Street spacing | Route | A clean run |
-|---|---|---|---|
-| **Easy** | 152 m | 1735 m | ~34 s — room to spare |
-| **Hard** | 172 m | 1963 m | ~39 s — barely |
-
-Hard is set so the *median* run lands just past the limit rather than just
-inside it, which is what makes most attempts miss. It was calibrated with a
-deliberately fallible bot — imprecise steering, late reactions, the odd
-forgotten boost — rather than the perfect-line one, because a perfect line
-tells you nothing about how often a real run fails.
-
-Switching rebuilds the city, so it is only offered from the menu.
+There used to be an easier 152 m city to pick from on the menu. One race is the
+better answer — every name on the board drove the same town, so the times all
+mean the same thing.
 
 ---
 
 ## The city
 
-A **9 × 9 open grid** of intersections — 152 m apart on Easy, 172 m on Hard, so a 1216 m or 1376 m square of
+A **9 × 9 open grid** of intersections, 172 m apart, so a 1376 m square of
 streets, 28 m of tarmac wide. Past the last junction the city gives way to
 open country: fields, hedge lines and orchards running several hundred metres
 out, so the grid ends in a landscape rather than at a border. There are **no
@@ -128,8 +130,7 @@ invisible walls** anywhere — drive out there if you like, it only costs you
 the clock.
 
 The DSCE gate is a block in from one corner and the orphanage a block in from
-the far one, **1735 m apart by road** on Easy (1963 m on Hard) against a
-1290 m straight line. The cyan
+the far one, **2064 m apart by road** against a 1460 m straight line. The mint
 line on the tarmac and on the radar is the **suggested route**: it staircases
 through the middle of town, it sticks to the streets, and it is *not* the
 fastest way there.

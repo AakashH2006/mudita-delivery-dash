@@ -20,26 +20,18 @@
   var ROAD_HALF = 14;        /* 28 m of tarmac                    */
   var SW = 3.5;              /* pavement width                    */
 
-  /* Difficulty is one number: how far apart the streets sit. Everything
-     else in the city - block contents, ramp run-ups, nitro spacing,
-     traffic spans - is derived from it, so the whole map scales and the
-     only thing that really changes is how far you have to drive.
+  /* How far apart the streets sit is the one number the whole city is
+     built from: block contents, ramp run-ups, nitro spacing and traffic
+     spans are all derived from it. At 172 m the gate and the orphanage
+     are 2064 m apart by road and a clean run lands around 39 s against
+     the 40 s window, so only a near-perfect one gets there.
 
-     easy 152: a clean run lands around 34 s against the 40 s window.
-     hard 172: a clean run lands around 39 s, so the median run is just
-     over the limit and most attempts miss it. */
-  var MODES = {
-    easy: { pitch: 152, label: "Easy", blurb: "A clean run gets there with room to spare." },
-    hard: { pitch: 172, label: "Hard", blurb: "Only a near-perfect run beats the clock." }
-  };
-
-  var PITCH, X0, BLOCK_IN;
-  function applyPitch(p) {
-    PITCH = p;
-    X0 = -(GRID - 1) * PITCH / 2;
-    BLOCK_IN = PITCH - ROAD_HALF * 2;
-  }
-  applyPitch(MODES.easy.pitch);
+     There used to be a shorter 152 m city on the menu beside it. One
+     race is the better answer: every name on the board drove the same
+     town, so the times all mean the same thing. */
+  var PITCH = 172;
+  var X0 = -(GRID - 1) * PITCH / 2;
+  var BLOCK_IN = PITCH - ROAD_HALF * 2;
 
   /* A block in from the rim at both ends. On the very corner the
      gate has open country down two sides of it, which is a poor
@@ -90,7 +82,6 @@
     time: 0,
 
     GRID: GRID, PITCH: PITCH, ROAD_HALF: ROAD_HALF, X0: X0,
-    MODES: MODES, mode: "easy",
     nodeX: nodeX,
     BLOCKS: BLOCKS,
 
@@ -105,8 +96,6 @@
       this.decor.length = 0;
       this.rnd = U.seeded(20251018);
 
-      this.PITCH = PITCH;                   /* these are snapshots, so */
-      this.X0 = X0;                         /* refresh them every build */
 
       this.start.set(nodeX(START_I), 0, nodeX(START_J));
       this.finish.set(nodeX(FINISH_I), 0, nodeX(FINISH_J));
@@ -128,29 +117,6 @@
       buildSpill(this);
 
       return this;
-    },
-
-    /* ----------------------------------------------------------
-       Switching difficulty moves the streets apart, so the city has
-       to be built again from scratch. Everything except the sky
-       lives under this.group, which makes the teardown short - but
-       three.js will not free GPU memory on its own, so walk the tree
-       and dispose as we go or every switch leaks a whole city.
-       ---------------------------------------------------------- */
-    setMode: function (name, scene) {
-      if (!MODES[name] || name === this.mode) return this;
-      this.mode = name;
-      applyPitch(MODES[name].pitch);
-      if (scene) this.rebuild(scene);
-      return this;
-    },
-
-    rebuild: function (scene) {
-      if (this.group) { scene.remove(this.group); disposeTree(this.group); }
-      if (this.sky) { scene.remove(this.sky); disposeTree(this.sky); this.sky = null; }
-      this.party = 0;
-      this.partyTier = "";
-      return this.build(scene);
     },
 
     /* ----------------------------------------------------------
@@ -560,20 +526,6 @@
   /* ===========================================================
      world pieces
      =========================================================== */
-  function disposeTree(root) {
-    root.traverse(function (o) {
-      if (o.geometry) o.geometry.dispose();
-      var m = o.material;
-      if (!m) return;
-      /* Materials and geometry are made fresh on every build, so they
-         are ours to free. Textures are NOT: textures.js hands out one
-         cached canvas texture per key and the next build asks for the
-         same ones, so disposing them here would leave the rebuilt city
-         drawing with dead textures. Leave them alone. */
-      (Array.isArray(m) ? m : [m]).forEach(function (mat) { mat.dispose(); });
-    });
-  }
-
   function buildSky(w, scene) {
     var sky = new THREE.Mesh(
       new THREE.SphereGeometry(2400, 32, 20),
@@ -1683,7 +1635,7 @@
      start and finish
      =========================================================== */
   function buildGates(w) {
-    gate(w, w.start.x, w.start.z, Math.PI / 2, 'DSCE', 'MUDITA DONATION DRIVE', '#ff9a1f');
+    gate(w, w.start.x, w.start.z, Math.PI / 2, 'DSCE', 'MUDITA DONATION DRIVE', '#f2a03c');
     dropZone(w, w.finish.x, w.finish.z);
   }
 

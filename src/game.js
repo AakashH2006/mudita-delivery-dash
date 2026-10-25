@@ -56,7 +56,6 @@
       M.Input.init();
       M.Leaderboard.render(-1);
       this.renderControls();
-      this.renderMode();
 
       M.Vehicle.reset(this.world);
       this.placeCameraBehind(true);
@@ -102,9 +101,6 @@
       document.getElementById('btn-retry').onclick = function () { self.startRun(); };
       document.getElementById('btn-menu').onclick = function () { self.toMenu(); };
       document.getElementById('btn-save').onclick = function () { self.saveRun(); };
-      var pick = function (e) { self.setMode(e.currentTarget.getAttribute('data-mode')); };
-      document.getElementById('mode-easy').onclick = pick;
-      document.getElementById('mode-hard').onclick = pick;
       document.getElementById('btn-clear').onclick = function () {
         M.Leaderboard.clear();
         M.Leaderboard.render(-1);
@@ -163,35 +159,6 @@
         w.setRoute(w.pathFrom(r.node));
       }
       return r;
-    },
-
-    /* ----------------------------------------------------------
-       Difficulty moves the streets apart, which means the city is
-       built again. Anything holding world-derived state has to be
-       pointed at the new one, and the boards swap to that mode's
-       times - easy and hard are not the same race.
-       ---------------------------------------------------------- */
-    setMode: function (name) {
-      if (this.state !== 'menu' || name === this.world.mode) return;
-      this.world.setMode(name, this.scene);
-      M.Leaderboard.setMode(name);
-      M.Minimap.init(this.world);
-      M.Markers.init(this.world);
-      M.Vehicle.reset(this.world);
-      this.placeCameraBehind(true);
-      M.Leaderboard.render(-1);
-      this.renderMode();
-      M.Audio.blip(name === 'hard' ? 480 : 760, 0.12, 'square', 0.14);
-    },
-
-    renderMode: function () {
-      var cur = this.world.mode;
-      ['easy', 'hard'].forEach(function (m) {
-        var b = document.getElementById('mode-' + m);
-        if (b) b.className = 'mode-btn' + (m === cur ? ' is-on' : '');
-      });
-      var blurb = document.getElementById('mode-blurb');
-      if (blurb) blurb.textContent = this.world.MODES[cur].blurb;
     },
 
     toMenu: function () {

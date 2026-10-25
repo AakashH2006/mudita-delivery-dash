@@ -242,11 +242,11 @@
       if (cache.livery) return cache.livery;
       var c = cv(512, 256), x = c.getContext('2d');
       x.fillStyle = '#1b2026'; x.fillRect(0, 0, 512, 256);
-      x.fillStyle = '#ff9a1f';
+      x.fillStyle = '#f2a03c';
       x.beginPath();
       x.moveTo(0, 196); x.lineTo(240, 150); x.lineTo(250, 184); x.lineTo(0, 232);
       x.closePath(); x.fill();
-      x.fillStyle = 'rgba(255,154,31,.3)';
+      x.fillStyle = 'rgba(242,160,60,.3)';
       x.beginPath();
       x.moveTo(250, 148); x.lineTo(430, 114); x.lineTo(440, 148); x.lineTo(258, 182);
       x.closePath(); x.fill();
@@ -337,8 +337,8 @@
       if (cache[key]) return cache[key];
       var W = 256, H = 256, c = cv(W, H), x = c.getContext('2d');
       x.clearRect(0, 0, W, H);
-      var tint = twisted ? ['rgba(255,61,154,' , 'rgba(190,120,255,'] 
-                         : ['rgba(46,198,255,', 'rgba(150,235,255,'];
+      var tint = twisted ? ['rgba(240,99,127,', 'rgba(247,154,172,']
+                         : ['rgba(79,196,189,', 'rgba(176,215,211,'];
       for (var i = 0; i < 3; i++) {
         var y = H - 24 - i * 74, a = 0.95 - i * 0.26;
         var g = x.createLinearGradient(0, y, 0, y - 60);
@@ -579,13 +579,13 @@
       if (cache[key]) return cache[key];
       var c = cv(1024, 256), x = c.getContext('2d');
       x.fillStyle = bg || '#ffffff'; x.fillRect(0, 0, 1024, 256);
-      x.strokeStyle = accent || '#ff9a1f'; x.lineWidth = 10;
+      x.strokeStyle = accent || '#f2a03c'; x.lineWidth = 10;
       x.strokeRect(14, 14, 996, 228);
-      x.fillStyle = '#1b2026';
+      x.fillStyle = '#1f4168';            /* the poster's own text blue */
       x.font = '700 92px "Chakra Petch", Segoe UI, sans-serif';
       x.textAlign = 'center';
       x.fillText(title, 512, 128);
-      x.fillStyle = accent || '#ff9a1f';
+      x.fillStyle = accent || '#f2a03c';
       x.font = '600 36px "Chakra Petch", Segoe UI, sans-serif';
       x.fillText(sub, 512, 190);
       var t = new THREE.CanvasTexture(c);
@@ -599,11 +599,11 @@
       if (cache.routeStrip) return cache.routeStrip;
       var c = cv(64, 128), x = c.getContext('2d');
       var g = x.createLinearGradient(0, 0, 64, 0);
-      g.addColorStop(0, 'rgba(46,198,255,0)');
-      g.addColorStop(0.18, 'rgba(46,198,255,.75)');
-      g.addColorStop(0.5, 'rgba(150,232,255,.95)');
-      g.addColorStop(0.82, 'rgba(46,198,255,.75)');
-      g.addColorStop(1, 'rgba(46,198,255,0)');
+      g.addColorStop(0, 'rgba(79,196,189,0)');
+      g.addColorStop(0.18, 'rgba(79,196,189,.75)');
+      g.addColorStop(0.5, 'rgba(176,215,211,.95)');
+      g.addColorStop(0.82, 'rgba(79,196,189,.75)');
+      g.addColorStop(1, 'rgba(79,196,189,0)');
       x.fillStyle = g; x.fillRect(0, 0, 64, 128);
       x.fillStyle = 'rgba(255,255,255,.55)';
       for (var i = 0; i < 2; i++) {

@@ -119,7 +119,7 @@
       /* suggested route */
       var nodes = w.routeNodes;
       if (nodes && nodes.length > 1) {
-        g.strokeStyle = '#17a9e0';
+        g.strokeStyle = '#4fc4bd';
         g.lineWidth = 7 * SCALE;
         g.lineCap = 'round';
         g.lineJoin = 'round';
@@ -133,7 +133,7 @@
       }
 
       /* ramps */
-      g.fillStyle = '#ff8a1f';
+      g.fillStyle = '#f2a03c';
       for (i = 0; i < w.ramps.length; i++) {
         var rp = w.ramps[i];
         if (Math.abs(rp.x - px) > 260 || Math.abs(rp.z - pz) > 260) continue;
@@ -159,7 +159,7 @@
       }
 
       /* live boost pads */
-      g.fillStyle = '#ffc93c';
+      g.fillStyle = '#f7cf45';
       for (i = 0; i < w.pads.length; i++) {
         var pad = w.pads[i];
         if (pad.cooldown > 0) continue;
@@ -183,16 +183,16 @@
          no footprint to be faithful to, so it falls back to a pin on the
          rim pointing the way. */
       if (inside) {
-        g.fillStyle = 'rgba(32,170,90,' + (0.30 * pulse).toFixed(3) + ')';
+        g.fillStyle = 'rgba(47,168,119,' + (0.30 * pulse).toFixed(3) + ')';
         g.beginPath(); g.arc(q[0], q[1], 17 * SCALE, 0, 6.2832); g.fill();
         g.strokeStyle = 'rgba(150,255,200,' + (0.85 * pulse).toFixed(3) + ')';
         g.lineWidth = 2.4;
         g.beginPath(); g.arc(q[0], q[1], 17 * SCALE, 0, 6.2832); g.stroke();
       } else {
-        g.fillStyle = 'rgba(32,170,90,' + (0.25 * pulse).toFixed(3) + ')';
+        g.fillStyle = 'rgba(47,168,119,' + (0.25 * pulse).toFixed(3) + ')';
         g.beginPath(); g.arc(q[0], q[1], 17 * pulse, 0, 6.2832); g.fill();
       }
-      g.fillStyle = '#1d9b57';
+      g.fillStyle = '#2fa877';
       g.beginPath(); g.arc(q[0], q[1], 7.5, 0, 6.2832); g.fill();
       g.strokeStyle = '#ffffff'; g.lineWidth = 1.6; g.stroke();
 
@@ -203,11 +203,11 @@
       g.translate(cx, cy);
       g.fillStyle = 'rgba(255,255,255,.85)';
       g.beginPath(); g.arc(0, 0, 14, 0, 6.2832); g.fill();
-      g.fillStyle = '#ff8a1f';
+      g.fillStyle = '#f2a03c';
       g.beginPath();
       g.moveTo(0, -12); g.lineTo(9, 10); g.lineTo(0, 5.5); g.lineTo(-9, 10);
       g.closePath(); g.fill();
-      g.strokeStyle = 'rgba(30,36,44,.9)'; g.lineWidth = 1.5; g.stroke();
+      g.strokeStyle = 'rgba(11,43,51,.9)'; g.lineWidth = 1.5; g.stroke();
       g.restore();
 
       /* north is +Z, so east is -X and the heading runs the other way */

@@ -13,24 +13,18 @@
 (function (M) {
   'use strict';
 
-  var KEY = 'mudita.leaderboard.v1';
-  var KEY_P = 'mudita.leaderboard.perfect.v1';
+  /* The .hard suffix is history, not a setting: when the menu offered
+     two cities these keys held the 172 m one. That is the only city now,
+     so the board carries straight on from the times already saved under
+     them rather than starting empty. */
+  var KEY = 'mudita.leaderboard.v1.hard';
+  var KEY_P = 'mudita.leaderboard.perfect.v1.hard';
   var MAX = 10;
   var MAX_P = 10;
   var PERFECT = 100;          /* cargo % that counts as a full load */
 
   var LB = M.Leaderboard = {
     available: true,
-    mode: "easy",
-
-    /* Easy and hard are different races, so they get different boards.
-       Easy keeps the original unsuffixed keys so times already saved on
-       this device survive the arrival of difficulty modes. */
-    key: function (base) {
-      return this.mode === "easy" ? base : base + "." + this.mode;
-    },
-
-    setMode: function (name) { this.mode = name; return this; },
 
     /* ---- storage ---- */
     read: function (key) {
@@ -53,9 +47,9 @@
       }
     },
 
-    load: function () { return this.read(this.key(KEY)); },
-    loadPerfect: function () { return this.read(this.key(KEY_P)); },
-    save: function (list) { this.write(this.key(KEY), list, MAX); },
+    load: function () { return this.read(KEY); },
+    loadPerfect: function () { return this.read(KEY_P); },
+    save: function (list) { this.write(KEY, list, MAX); },
 
     /* returns the index the run landed at on the overall board, or -1 */
     add: function (entry) {
@@ -71,7 +65,7 @@
         var p = this.loadPerfect();
         p.push(rec);
         p.sort(byTime);
-        this.write(this.key(KEY_P), p, MAX_P);
+        this.write(KEY_P, p, MAX_P);
       }
 
       var list = this.load();
@@ -84,8 +78,8 @@
 
     clear: function () {
       try {
-        localStorage.removeItem(this.key(KEY));
-        localStorage.removeItem(this.key(KEY_P));
+        localStorage.removeItem(KEY);
+        localStorage.removeItem(KEY_P);
       } catch (e) { /* ignore */ }
     },
 
