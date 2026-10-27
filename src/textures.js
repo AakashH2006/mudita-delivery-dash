@@ -592,32 +592,6 @@
       t.encoding = THREE.sRGBEncoding;
       cache[key] = t;
       return t;
-    },
-
-    /* ---- the GPS route strip painted on the road ---- */
-    routeStrip: function () {
-      if (cache.routeStrip) return cache.routeStrip;
-      var c = cv(64, 128), x = c.getContext('2d');
-      var g = x.createLinearGradient(0, 0, 64, 0);
-      g.addColorStop(0, 'rgba(79,196,189,0)');
-      g.addColorStop(0.18, 'rgba(79,196,189,.75)');
-      g.addColorStop(0.5, 'rgba(176,215,211,.95)');
-      g.addColorStop(0.82, 'rgba(79,196,189,.75)');
-      g.addColorStop(1, 'rgba(79,196,189,0)');
-      x.fillStyle = g; x.fillRect(0, 0, 64, 128);
-      x.fillStyle = 'rgba(255,255,255,.55)';
-      for (var i = 0; i < 2; i++) {
-        var y = i * 64 + 16;
-        x.beginPath();
-        x.moveTo(10, y + 26); x.lineTo(32, y); x.lineTo(54, y + 26);
-        x.lineTo(54, y + 38); x.lineTo(32, y + 12); x.lineTo(10, y + 38);
-        x.closePath(); x.fill();
-      }
-      var t = new THREE.CanvasTexture(c);
-      t.wrapT = THREE.RepeatWrapping;
-      t.encoding = THREE.sRGBEncoding;
-      cache.routeStrip = t;
-      return t;
     }
   };
 

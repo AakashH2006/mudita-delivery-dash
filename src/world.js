@@ -112,7 +112,6 @@
       buildGates(this);
       buildHash(this);
       buildGPS(this);
-      buildRouteMesh(this);
       buildConfetti(this);
       buildSpill(this);
 
@@ -303,61 +302,11 @@
       if (key === this._routeKey) return;
       this._routeKey = key;
       this.routeNodes = nodes;
-
-      /* One quad per straight run plus a square patch at each corner.
-         Carrying a single cross-section through a node cannot work: at a
-         90 degree turn the end edge of the incoming segment ends up lying
-         along the road instead of across it, which tears the ribbon open
-         at every corner. */
-      var pos = [], uv = [], idx = [], half = 2.2, run = 0, quads = 0;
-
-      function quad(ax, az, bx, bz, rx, rz, u0, u1) {
-        pos.push(ax - rx * half, 0.09, az - rz * half);
-        pos.push(ax + rx * half, 0.09, az + rz * half);
-        pos.push(bx - rx * half, 0.09, bz - rz * half);
-        pos.push(bx + rx * half, 0.09, bz + rz * half);
-        uv.push(0, u0, 1, u0, 0, u1, 1, u1);
-        var a = quads * 4;
-        idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
-        quads++;
-      }
-
-      for (var k = 0; k < nodes.length - 1; k++) {
-        var i0 = nodes[k] % GRID, j0 = (nodes[k] / GRID) | 0;
-        var i1 = nodes[k + 1] % GRID, j1 = (nodes[k + 1] / GRID) | 0;
-        var x0 = nodeX(i0), z0 = nodeX(j0), x1 = nodeX(i1), z1 = nodeX(j1);
-        var dx = x1 - x0, dz = z1 - z0;
-        var seg = Math.hypot(dx, dz) || 1;
-        var tx = dx / seg, tz = dz / seg;
-
-        /* stop short of a corner so the patch there is drawn once */
-        var backOff = k > 0 ? half : 0;
-        var fwdOff = k < nodes.length - 2 ? half : 0;
-        quad(x0 + tx * backOff, z0 + tz * backOff,
-          x1 - tx * fwdOff, z1 - tz * fwdOff,
-          tz, -tx, (run + backOff) / 11, (run + seg - fwdOff) / 11);
-        run += seg;
-
-        /* the corner itself, square and axis aligned */
-        if (k < nodes.length - 2) {
-          quad(x1 - half, z1, x1 + half, z1, 0, 1, run / 11, run / 11 + 0.4);
-        }
-      }
-      var g = this.routeMesh.geometry;
-      g.dispose();
-      var ng = new THREE.BufferGeometry();
-      ng.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-      ng.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
-      ng.setIndex(idx);
-      this.routeMesh.geometry = ng;
-      this.routeMesh.visible = nodes.length > 1;
     },
 
     /* ---- per-frame world animation ---- */
     update: function (dt, carPos) {
       this.time += dt;
-      var t = M.tex.routeStrip();
-      t.offset.y = -this.time * 0.55;
 
       updatePads(this, dt);
       for (var h = 0; h < this.ramps.length; h++) {
@@ -1859,18 +1808,6 @@
       }
     }
     w.gps = { dist: dist, goal: goal };
-  }
-
-  function buildRouteMesh(w) {
-    var mat = new THREE.MeshBasicMaterial({
-      map: M.tex.routeStrip(), transparent: true, depthWrite: false,
-      opacity: 0.85, side: THREE.DoubleSide
-    });
-    var mesh = new THREE.Mesh(new THREE.BufferGeometry(), mat);
-    mesh.renderOrder = 2;
-    mesh.frustumCulled = false;
-    w.routeMesh = mesh;
-    w.group.add(mesh);
   }
 
   /* ===========================================================
