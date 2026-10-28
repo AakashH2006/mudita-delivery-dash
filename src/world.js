@@ -24,7 +24,7 @@
      built from: block contents, ramp run-ups, nitro spacing and traffic
      spans are all derived from it. At 172 m the gate and the orphanage
      are 2064 m apart by road and a clean run lands around 39 s against
-     the 40 s window, so only a near-perfect one gets there.
+     the 43 s window, so only a near-perfect one gets there.
 
      There used to be a shorter 152 m city on the menu beside it. One
      race is the better answer: every name on the board drove the same

@@ -30,7 +30,7 @@
   var RIDE = 0.95;
   var WHEEL_R = 0.85;
 
-  /* Nitro is the whole difficulty dial. You cannot make the 40 second
+  /* Nitro is the whole difficulty dial. You cannot make the 43 second
      window on the engine alone, so the run is really a question of
      whether you can keep the meter fed - and it empties faster than it
      fills unless you are taking ramps and drifting corners on purpose. */

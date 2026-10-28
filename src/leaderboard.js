@@ -115,7 +115,7 @@
           (this.available
             ? (gold
               ? 'No full loads yet.<br>Arrive with cargo integrity at 100% to appear here.'
-              : 'No runs recorded yet.<br>Deliver the donations in under 40 seconds to get on the board.')
+              : 'No runs recorded yet.<br>Deliver the donations in under 43 seconds to get on the board.')
             : 'Storage is blocked in this browser, so times cannot be saved.') +
           '</div>';
         return;

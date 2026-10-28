@@ -5,7 +5,7 @@
   'use strict';
 
   var U = M.util;
-  var TIME_LIMIT = 40;
+  var TIME_LIMIT = 43;
   var CARGO_FLOOR = 50;      /* below this at the gate and the run fails */
   var FIXED = 1 / 120;
 
@@ -365,7 +365,7 @@
       if (this.timeLeft <= 0) {
         this.timeLeft = 0;
         this.finish(false, 'Out of Time',
-          'The 40 second window closed before the tempo reached the orphanage.');
+          'The 43 second window closed before the tempo reached the orphanage.');
         return;
       }
       var dfx = v.pos.x - w.finish.x, dfz = v.pos.z - w.finish.z;
@@ -376,7 +376,7 @@
             CARGO_FLOOR + '% was the minimum.');
         } else {
           /* How intact the load was. Getting every crate across is the
-             hardest thing in this game - it means forty seconds through
+             hardest thing in this game - it means forty-three seconds through
              cross traffic without once getting it wrong - so it is worth
              more than the same card with a different number on it. */
           var cg = Math.round(v.cargo);
