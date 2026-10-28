@@ -343,6 +343,74 @@ body{
 }
 
 /* ===========================================================
+   Radio
+
+   A pill on the top rail, above every screen rather than inside
+   the HUD, because it keeps playing through the menu and the
+   result card and a control that vanishes under them would be a
+   lie about that. Four bars, a title, four buttons - nothing
+   that asks to be read while you are driving.
+   =========================================================== */
+.radio{
+  position:absolute;top:22px;right:26px;z-index:30;
+  display:flex;align-items:center;gap:12px;
+  width:330px;padding:8px 10px 8px 15px;
+  background:var(--glass); backdrop-filter:blur(14px);
+  border:1px solid var(--line-strong);
+  border-radius:var(--r-pill);
+  box-shadow:var(--lift);
+}
+
+/* the bars only move while sound is actually coming out */
+.rd-eq{display:flex;align-items:flex-end;gap:2.5px;height:16px;flex:none}
+.rd-eq i{
+  display:block;width:3px;height:4px;border-radius:2px;
+  background:var(--accent);opacity:.4;
+}
+.radio.playing .rd-eq i{opacity:1;animation:eq .92s ease-in-out infinite}
+.radio.playing .rd-eq i:nth-child(2){animation-duration:.64s;animation-delay:.09s}
+.radio.playing .rd-eq i:nth-child(3){animation-duration:1.12s;animation-delay:.21s}
+.radio.playing .rd-eq i:nth-child(4){animation-duration:.78s;animation-delay:.05s}
+@keyframes eq{0%,100%{height:4px}50%{height:16px}}
+
+.rd-now{flex:1;min-width:0}
+.rd-title{
+  font-size:12.5px;font-weight:700;letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.rd-sub{
+  margin-top:2px;font-size:9.5px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+.rd-ctl{display:flex;align-items:center;gap:1px;flex:none}
+.rd-btn{
+  width:28px;height:28px;display:grid;place-items:center;
+  border:0;border-radius:50%;background:transparent;
+  color:var(--dim);cursor:pointer;
+  transition:color .14s ease, background .14s ease;
+}
+.rd-btn svg{display:block;width:15px;height:15px;fill:currentColor}
+.rd-btn:hover{color:var(--text);background:rgba(176,215,211,.1)}
+.rd-btn:active{transform:translateY(1px)}
+.rd-main{width:31px;height:31px;color:var(--accent)}
+.rd-main svg{width:16px;height:16px}
+.rd-main:hover{color:#fac17a;background:var(--accent-soft)}
+.rd-main .i-pause{display:none}
+.radio.playing .rd-main .i-play{display:none}
+.radio.playing .rd-main .i-pause{display:block}
+.rd-mute .i-off{display:none}
+.radio.muted .rd-mute{color:var(--danger)}
+.radio.muted .rd-mute .i-spk{display:none}
+.radio.muted .rd-mute .i-off{display:block}
+
+/* nothing to play: still there, visibly doing nothing */
+.radio.empty{opacity:.5}
+.radio.empty .rd-eq i{background:var(--dim)}
+.radio.empty .rd-ctl{opacity:.45;pointer-events:none}
+
+/* ===========================================================
    Screens
    =========================================================== */
 .screen{
@@ -580,5 +648,7 @@ body{
   .boost-num{font-size:33px}
   .clock-time{font-size:42px}
   .mk-title{font-size:11px}
+  .radio{top:14px;right:14px;width:268px;gap:9px;padding:7px 8px 7px 13px}
+  .radio .rd-sub{display:none}
 }
 

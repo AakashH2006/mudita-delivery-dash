@@ -121,6 +121,12 @@ window.MUD = window.MUD || {};
         if (btnDown(p, 9)) this.pressed.Enter = true;           /* Start  */
         if (btnDown(p, 1) && !this.padWasDown.b) this.pressed.KeyR = true; /* B */
         this.padWasDown.b = btnDown(p, 1);
+
+        /* d-pad left/right works the radio, same as [ and ] */
+        if (btnDown(p, 14) && !this.padWasDown.dl) this.pressed.BracketLeft = true;
+        this.padWasDown.dl = btnDown(p, 14);
+        if (btnDown(p, 15) && !this.padWasDown.dr) this.pressed.BracketRight = true;
+        this.padWasDown.dr = btnDown(p, 15);
       }
 
       s.steer = U.clamp(s.steer, -1, 1);
@@ -154,7 +160,9 @@ window.MUD = window.MUD || {};
     { key: 'Space',      what: 'Drift' },
     { key: 'W A S D',    what: 'Flip in air' },
     { key: 'R',          what: 'Restart' },
-    { key: 'Esc',        what: 'Menu' }
+    { key: 'Esc',        what: 'Menu' },
+    { key: '[  ]',       what: 'Radio: prev / next' },
+    { key: 'M',          what: 'Mute radio' }
   ];
   M.CONTROLS_PAD = [
     { key: 'RT',        what: 'Accelerate' },
@@ -162,7 +170,8 @@ window.MUD = window.MUD || {};
     { key: 'L-Stick',   what: 'Steer / Air' },
     { key: 'A  or  RB', what: 'Boost' },
     { key: 'X  or  LB', what: 'Drift' },
-    { key: 'B',         what: 'Restart' }
+    { key: 'B',         what: 'Restart' },
+    { key: 'D-Pad',     what: 'Radio: prev / next' }
   ];
 
 })(window.MUD);

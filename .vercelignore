@@ -1,7 +1,11 @@
 # Reference images used while building the game. Neither is loaded by
 # the game at runtime, and the gametiles one is another studio's Play
 # Store artwork, so it has no business being served from your domain.
-assets/
+#
+# assets/radio/ is the exception: the radio fetches those files from the
+# deployed site, so it is the one thing under assets/ that must go up.
+assets/*
+!assets/radio/
 gametiles_*.jpg
 README.md
 

@@ -8,7 +8,7 @@
 
   var A = M.Audio = {
     ctx: null, ready: false, muted: false,
-    master: null, engineOsc: null, engineGain: null, engineFilter: null,
+    master: null, music: null, engineOsc: null, engineGain: null, engineFilter: null,
     boostGain: null, boostSrc: null,
 
     init: function () {
@@ -21,6 +21,14 @@
         this.master = ctx.createGain();
         this.master.gain.value = 0.55;
         this.master.connect(ctx.destination);
+
+        /* The radio hangs off its own bus. Everything else here is
+           synthesised and short; the music is neither, so it needs a
+           level that can be ducked under a beep without the engine
+           dipping with it. radio.js connects its decks to this. */
+        this.music = ctx.createGain();
+        this.music.gain.value = 1;
+        this.music.connect(this.master);
 
         /* --- engine: two detuned saws through a moving lowpass --- */
         this.engineGain = ctx.createGain();

@@ -54,6 +54,7 @@
 
       this.bindUI();
       M.Input.init();
+      M.Radio.init();
       M.Leaderboard.render(-1);
       this.renderControls();
 
@@ -147,6 +148,11 @@
       document.getElementById('cd-sub').textContent = 'Get Ready';
       this.lastBeep = 4;
       M.Audio.resume();
+      /* the radio comes on with the ignition, then gets out of the
+         way of the lights - the countdown is 3.2 s and the GO tone
+         rings on past it */
+      M.Radio.start();
+      M.Radio.duckFor(0.26, 3.7);
     },
 
     /* recompute the suggested road route when the nearest junction changes */
@@ -177,6 +183,8 @@
       this.state = 'result';
       M.Audio.silence();
       if (ok) M.Audio.win(); else M.Audio.lose();
+      /* the fanfare runs to about 1.5 s and wants the room to itself */
+      M.Radio.duckFor(0.22, 2.8);
 
       var v = M.Vehicle;
       var card = document.querySelector('.res-card');
@@ -233,6 +241,7 @@
       if (dt > 0.25) dt = 0.25;          /* tab was hidden - do not teleport */
 
       this.handleHotkeys();
+      M.Radio.update(dt);
 
       if (this.state !== 'drive' && this.world) this.world.update(dt, M.Vehicle.pos);
 
@@ -279,6 +288,10 @@
       if (M.Input.justPressed('Escape') && this.state !== 'menu') this.toMenu();
       if (M.Input.justPressed('KeyR') && (this.state === 'drive' || this.state === 'result')) this.startRun();
       if (M.Input.justPressed('Enter') && this.state === 'menu') this.startRun();
+
+      if (M.Input.justPressed('KeyM')) M.Radio.setMuted(!M.Radio.muted);
+      if (M.Input.justPressed('BracketLeft')) M.Radio.step(-1);
+      if (M.Input.justPressed('BracketRight')) M.Radio.step(1);
     },
 
     tickCountdown: function (dt) {

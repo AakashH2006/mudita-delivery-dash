@@ -2,5 +2,9 @@
 # runtime. The gametiles one is another studio's Play Store artwork and
 # does not belong in a public repo; vehicle-reference.jpg is here for the
 # same reason — if that photo is yours to publish, delete the line.
-assets/
+#
+# assets/radio/ is the exception: the radio plays those files, so they
+# have to ship. Everything else under assets/ stays out.
+assets/*
+!assets/radio/
 gametiles_*.jpg
